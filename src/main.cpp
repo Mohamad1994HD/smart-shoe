@@ -36,7 +36,7 @@ public:
     if(distance <  _sen_::DISTANCE::CLOSE){
       // if normal mode high vibration, if inverse low vibration
       _mode == mode::md::INVERSE ?
-      vibrator->setSpeed(_dev_::PARAMETERS::LOW_VIB):
+      vibrator->setSpeed(_dev_::PARAMETERS::NO_VIB):
       vibrator->setSpeed(_dev_::PARAMETERS::HIGH_VIB);
     }
     else if (distance < _sen_::DISTANCE::NORMAL){

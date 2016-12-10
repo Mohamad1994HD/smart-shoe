@@ -5,7 +5,7 @@
 
 namespace _sen_{
   enum DISTANCE{
-      FAR=100,
+      FAR=50,
       NORMAL=20,
       CLOSE=10
     };
