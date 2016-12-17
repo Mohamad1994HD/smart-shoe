@@ -3,13 +3,8 @@
 
 #include "Arduino.h"
 
-namespace _dev_{
-  enum PARAMETERS{
-        LOW_VIB=300,
-        MED_VIB=400,
-        HIGH_VIB=500,
-        NO_VIB=0
-    };
+namespace dev{
+
 
   class Device{
   protected:
@@ -17,9 +12,11 @@ namespace _dev_{
 
   public:
     Device(int p):pin(p){}
+    // Set the pin number
     void set_pin(int p){
       pin = p;
     }
+    // Initialize the pin of the device
     void init(){
       pinMode(pin, OUTPUT);
     };
@@ -30,45 +27,65 @@ namespace _dev_{
     virtual void commit()=0;
   };
 
-  class Vibrator:public Device{
-  private:
-    unsigned int speed;
-    int *speeds;
-    unsigned int index;
-    unsigned int size;
 
-  public:
+  enum SPEEDS{
+        LOW_VIB=300,
+        MED_VIB=400,
+        HIGH_VIB=500,
+        NO_VIB=0
+    };
 
-    Vibrator(int p):Device(p), speed(-1), index(0), size(0),speeds(NULL){
-    }
+    class Vibrator:public Device{
+    private:
+      unsigned int speed;
 
-    void init_speedlst(int *lst, unsigned int sz=1){
-      speeds = lst;
-      size = sz;
-    }
+    public:
 
-    void commit(){
-      if(speed >= 0) analogWrite(this->pin, speed);
-      else{
+      Vibrator(int p):Device(p), speed(-1){}
+
+
+      // Commit changes
+      virtual void commit(){
+        if(speed >= 0) analogWrite(this->pin, speed);
+      }
+
+      // Set the vibrator speed directly
+      void setSpeed(int sp){
+        speed = sp;
+      }
+      // return current speed
+      int getSpeed(){
+        return speed;
+      }
+    };
+
+    class EnhanceVibrator:public Vibrator{
+    private:
+
+      int *speeds;
+      unsigned int index;
+      unsigned int size;
+    public:
+
+      EnhanceVibrator (int p):Vibrator(p),index(0), size(0),speeds(NULL){}
+
+      void init_speedlst(int *lst, unsigned int sz=1){
+        speeds = lst;
+        size = sz;
+      }
+
+      void commit(){
         if (speeds){
-          analogWrite(this->pin, speeds[index]);
+            analogWrite(this->pin, speeds[index]);
         }
       }
-    }
-    //
-    void increment_speed(){
-      index++;
-      if (index >= size){index = 0;}
-    }
 
-    void setSpeed(int sp){
-      speed = sp;
-    }
+      // Increment speed from speed list
+      void increment_speed(){
+        index++;
+        if (index >= size){index = 0;}
+      }
+    };
 
-    int getSpeed(){
-      if (speed > 0) return speed;
-      else return speeds[index];
-    }
-  };
 }
 #endif /* end of include guard:  */

@@ -3,15 +3,15 @@
 
 #include "Arduino.h"
 
-namespace _sen_{
+namespace sen{
   enum DISTANCE{
-      FAR=50,
-      NORMAL=20,
-      CLOSE=10
+      FAR=100,
+      NORMAL=60,
+      CLOSE=30
     };
 
 
-  class Sensor{
+  class DistanceSensor{
   private:
     int trig;
     int echo;
@@ -19,8 +19,8 @@ namespace _sen_{
 
 
   public:
-      Sensor(int trig_, int echo_):trig(trig_), echo(echo_), distance(0){}
-
+      DistanceSensor(int trig_, int echo_):trig(trig_), echo(echo_), distance(0){}
+      // Initialize Pins trigger: OUTPUT, echo: INPUT
       void init(){
         pinMode(trig, OUTPUT);
         pinMode(echo, INPUT);
@@ -40,6 +40,7 @@ namespace _sen_{
           }
       }
 
+      // Return the value of distance
       int getDistance(){
         return distance;
       }
