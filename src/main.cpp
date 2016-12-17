@@ -13,7 +13,7 @@ public:
   };
 
   Component(dev::Vibrator *v, sen::DistanceSensor *s, int _mode=mode::md::NORMAL):
-  _mode(_mode), vibrator(v), DistanceSensor(s){}
+  vibrator(v), DistanceSensor(s),_mode(_mode){}
 
 
   void init(){
@@ -70,12 +70,16 @@ dev::Vibrator vib1(3);
 dev::Vibrator vib2(5);
 dev::Vibrator vib3(6);
 // Components MODIFY LATER
-Component c1(&vib1, &DistanceSensor1);
-Component c2(&vib2, &DistanceSensor2, Component::mode::md::INVERSE);
-Component c3(&vib3, &DistanceSensor3);
+// Component c1(&vib1, &DistanceSensor1);
+// Component c2(&vib2, &DistanceSensor2, Component::mode::md::INVERSE);
+// Component c3(&vib3, &DistanceSensor3);
 
 //
-Component components[SIZE] = {c1, c2, c3};
+Component components[SIZE] = {
+  Component(&vib1, &DistanceSensor1),
+  Component(&vib2, &DistanceSensor2, Component::mode::md::INVERSE),
+  Component(&vib1, &DistanceSensor3)
+ };
 
 
 

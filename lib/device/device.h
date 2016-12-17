@@ -67,7 +67,7 @@ namespace dev{
       unsigned int size;
     public:
 
-      EnhanceVibrator (int p):Vibrator(p),index(0), size(0),speeds(NULL){}
+      EnhanceVibrator (int p):Vibrator(p),speeds(NULL), index(0), size(0){}
 
       void init_speedlst(int *lst, unsigned int sz=1){
         speeds = lst;
