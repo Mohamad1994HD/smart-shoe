@@ -29,9 +29,9 @@ namespace dev{
 
 
   enum SPEEDS{
-        LOW_VIB=300,
-        MED_VIB=400,
-        HIGH_VIB=500,
+        LOW_VIB=400,
+        MED_VIB=500,
+        HIGH_VIB=700,
         NO_VIB=0
     };
 

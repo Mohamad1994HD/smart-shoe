@@ -33,7 +33,7 @@ public:
     DistanceSensor->run();
 
     int distance = DistanceSensor->getDistance();
-
+      Serial.println(distance);
     if(distance <  sen::DISTANCE::CLOSE){
       // if normal mode high vibration, if inverse low vibration
       if (_mode == mode::md::INVERSE){
@@ -62,23 +62,23 @@ public:
 const int SIZE = 3;
 
 // DistanceSensors MODIFY LATER
-sen::DistanceSensor DistanceSensor1(A0, A1);
-sen::DistanceSensor DistanceSensor2(A3, A2);
-sen::DistanceSensor DistanceSensor3(8, 9);
+sen::DistanceSensor DistanceSensor1(8, 9);// FRONT
+sen::DistanceSensor DistanceSensor2(A2, A3); // INV SENSOR
+sen::DistanceSensor DistanceSensor3(A0, A1); // SIDE
 // vibrators MODIFY LATER
-dev::Vibrator vib1(3);
-dev::Vibrator vib2(5);
-dev::Vibrator vib3(6);
+dev::Vibrator vib1(7); // FRONT
+dev::Vibrator vib2(5); // INV MOTOR
+dev::Vibrator vib3(3); // SIDE
 // Components MODIFY LATER
-// Component c1(&vib1, &DistanceSensor1);
-// Component c2(&vib2, &DistanceSensor2, Component::mode::md::INVERSE);
-// Component c3(&vib3, &DistanceSensor3);
+Component c1(&vib1, &DistanceSensor1);
+Component c2(&vib2, &DistanceSensor2, Component::mode::md::INVERSE);
+Component c3(&vib3, &DistanceSensor3);
 
 //
-Component components[SIZE] = {
-  Component(&vib1, &DistanceSensor1),
-  Component(&vib2, &DistanceSensor2, Component::mode::md::INVERSE),
-  Component(&vib1, &DistanceSensor3)
+Component components[SIZE] = {c1,c2,c3
+  // Component(&vib1, &DistanceSensor1),
+  // Component(&vib2, &DistanceSensor2, Component::mode::md::INVERSE),
+  // Component(&vib1, &DistanceSensor3)
  };
 
 
@@ -89,13 +89,20 @@ void setup(){
       components[i].init();
       Serial.print("INIT ");
     }
+
+    // vib1.setSpeed(dev::SPEEDS::MED_VIB);
+    // vib2.setSpeed(dev::SPEEDS::MED_VIB);
+    // vib3.setSpeed(dev::SPEEDS::MED_VIB);
+    // vib1.commit();
+    // vib2.commit();
+    // vib3.commit();
 }
 
 unsigned int last_pass = 0;
 unsigned int time_delay = 100;
 
 void loop(){
-
+  //
   unsigned int t = millis();
 
 
@@ -104,7 +111,6 @@ void loop(){
       components[i].run();
       delay(time_delay);
     }
-    Serial.println("RUN");
 
     last_pass = t;
    }

@@ -5,9 +5,9 @@
 
 namespace sen{
   enum DISTANCE{
-      FAR=100,
-      NORMAL=60,
-      CLOSE=30
+      FAR=50,
+      NORMAL=25,
+      CLOSE=10
     };
 
 
